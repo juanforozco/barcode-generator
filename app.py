@@ -22,7 +22,7 @@ def get_base64_image(image_path):
 img_base64 = get_base64_image("assets/fondo.jpg")
 
 # ==============================
-# ESTILOS
+# ESTILOS PRO
 # ==============================
 st.markdown(f"""
 <style>
@@ -36,15 +36,21 @@ st.markdown(f"""
 }}
 
 .block-container {{
-    margin-top: -50px;
+    margin-top: -40px;
 }}
 
 .card {{
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.75);
     padding: 25px;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.08);
+    transition: 0.3s;
+}}
+
+.card:hover {{
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
 }}
 
 h1, h2, h3 {{
@@ -58,28 +64,34 @@ p, label {{
 .stButton > button {{
     background: linear-gradient(90deg, #facc15, #eab308);
     color: black;
-    border-radius: 10px;
+    border-radius: 12px;
     font-weight: bold;
+    padding: 10px 20px;
+    transition: 0.3s;
+}}
+
+.stButton > button:hover {{
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #eab308, #facc15);
 }}
 
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================
-# HEADER PREMIUM
+# HEADER PREMIUM (ARREGLADO)
 # ==============================
-components.html("""
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+components.html(f"""
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
-<div style="text-align:center; padding:40px 0;">
+<div style="text-align:center; padding:30px 0;">
 
     <h1 style="
         font-size:65px;
         color:#facc15;
-        font-family: 'Playfair Display', serif;
-        font-weight:700;
+        font-family:'Playfair Display', serif;
         letter-spacing:2px;
-        margin-bottom:10px;
+        margin-bottom:5px;
     ">
         🍻 LICORERA LA FORTUNA 56
     </h1>
@@ -88,13 +100,12 @@ components.html("""
         font-size:20px;
         color:white;
         opacity:0.9;
-        font-family: sans-serif;
     ">
         Generador de códigos de barras
     </p>
 
 </div>
-""", height=260)
+""", height=180)
 
 # ==============================
 # SETUP
@@ -122,22 +133,26 @@ with col1:
 
     codigo = st.text_input("Ingrese código")
 
+    if codigo:
+        # 🔥 VISTA PREVIA AUTOMÁTICA
+        barcode = Code128(codigo, writer=ImageWriter())
+        preview_path = f"output/preview_{codigo}"
+        barcode.save(preview_path)
+
+        st.image(f"{preview_path}.png", caption="Vista previa")
+
     if st.button("Generar código"):
         if codigo:
-            barcode = Code128(codigo, writer=ImageWriter())
             filename = f"output/{codigo}"
-            barcode.save(filename)
+            Code128(codigo, writer=ImageWriter()).save(filename)
 
             path = f"{filename}.png"
-
-            st.image(path)
 
             with open(path, "rb") as f:
                 st.download_button(
                     "📥 Descargar código",
                     f,
-                    file_name=f"{codigo}.png",
-                    mime="image/png"
+                    file_name=f"{codigo}.png"
                 )
 
     st.markdown('</div>', unsafe_allow_html=True)
