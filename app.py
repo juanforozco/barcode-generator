@@ -94,7 +94,7 @@ components.html("""
     </p>
 
 </div>
-""", height=200)
+""", height=260)
 
 # ==============================
 # SETUP
