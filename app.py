@@ -4,22 +4,43 @@ from barcode import Code128
 from barcode.writer import ImageWriter
 import os
 import zipfile
+import base64
 
+# 🔷 CONFIG
 st.set_page_config(page_title="Licorera La Fortuna 56", layout="wide")
 
-# 🔥 FONDO + ESTILO
+# 🔷 FUNCION PARA CARGAR IMAGEN
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img:
+        return base64.b64encode(img.read()).decode()
+
+# 🔷 CARGAR IMAGEN
+img_base64 = get_base64_image("assets/fondo.jpg")
+
+# 🔥 ESTILO GLOBAL
 st.markdown(f"""
 <style>
+
 .stApp {{
-    background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.9)),
-                url("fondo.jpg");
+    background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
+                url("data:image/jpg;base64,{img_base64}");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }}
 
+.block-container {{
+    background: rgba(0,0,0,0.6);
+    padding: 2rem;
+    border-radius: 20px;
+}}
+
 h1, h2, h3 {{
     color: #facc15;
+}}
+
+p, label {{
+    color: white;
 }}
 
 .stButton>button {{
@@ -29,33 +50,35 @@ h1, h2, h3 {{
     font-weight: bold;
 }}
 
-.block-container {{
-    background-color: rgba(0,0,0,0.75);
-    padding: 2rem;
-    border-radius: 15px;
-}}
-
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🍻 LICORERA LA FORTUNA 56")
-st.subheader("Generador de Códigos de Barras")
+# 🔷 HEADER PRO
+st.markdown("""
+<div style='text-align:center; margin-bottom:30px;'>
+    <h1 style='font-size:60px;'>🍻 LICORERA LA FORTUNA 56</h1>
+    <p style='font-size:22px;'>Generador de códigos de barras</p>
+</div>
+""", unsafe_allow_html=True)
 
+# 🔷 CREAR CARPETA OUTPUT
 os.makedirs("output", exist_ok=True)
 
-# 🔷 FUNCION COLUMNA FLEXIBLE
+# 🔷 FUNCION BUSCAR COLUMNA
 def encontrar_columna_codigo(df):
     for col in df.columns:
         if col.strip().lower() in ["codigo", "código"]:
             return col
     return None
 
-# 🔷 COLUMNAS VISUALES
+# 🔷 LAYOUT
 col1, col2 = st.columns(2)
 
-# 🔹 INDIVIDUAL
+# ==============================
+# 🔹 CÓDIGO INDIVIDUAL
+# ==============================
 with col1:
-    st.header("🔹 Generar código individual")
+    st.subheader("🔹 Generar código individual")
 
     codigo = st.text_input("Ingrese código")
 
@@ -71,14 +94,17 @@ with col1:
 
             with open(path, "rb") as f:
                 st.download_button(
-                    "📥 Descargar",
+                    "📥 Descargar código",
                     f,
-                    file_name=f"{codigo}.png"
+                    file_name=f"{codigo}.png",
+                    mime="image/png"
                 )
 
-# 🔹 EXCEL
+# ==============================
+# 🔹 DESDE EXCEL
+# ==============================
 with col2:
-    st.header("📊 Generar desde Excel")
+    st.subheader("📊 Generar desde Excel")
 
     archivo = st.file_uploader("Sube tu Excel")
 
@@ -89,7 +115,7 @@ with col2:
         col_codigo = encontrar_columna_codigo(df)
 
         if col_codigo is None:
-            st.error("No se encontró columna Código")
+            st.error("❌ No se encontró columna 'Código'")
         else:
             if st.button("Generar todos"):
                 rutas = []
@@ -109,7 +135,12 @@ with col2:
                         zipf.write(file)
 
                 with open(zip_path, "rb") as f:
-                    st.download_button("📦 Descargar ZIP", f)
+                    st.download_button(
+                        "📦 Descargar ZIP",
+                        f,
+                        file_name="codigos.zip"
+                    )
 
+# 🔷 FOOTER
 st.markdown("---")
 st.markdown("✨ Próximamente: Inventario | Ventas | Reportes")
