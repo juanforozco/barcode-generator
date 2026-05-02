@@ -7,12 +7,12 @@ import zipfile
 import base64
 
 # ==============================
-# 🔷 CONFIG
+# CONFIG
 # ==============================
 st.set_page_config(page_title="Licorera La Fortuna 56", layout="wide")
 
 # ==============================
-# 🔷 CARGAR IMAGEN BASE64
+# CARGAR IMAGEN
 # ==============================
 def get_base64_image(image_path):
     with open(image_path, "rb") as img:
@@ -21,7 +21,7 @@ def get_base64_image(image_path):
 img_base64 = get_base64_image("assets/fondo.jpg")
 
 # ==============================
-# 🔥 ESTILOS
+# CSS (AQUÍ VA TODO EL ESTILO)
 # ==============================
 st.markdown(f"""
 <style>
@@ -41,10 +41,6 @@ st.markdown(f"""
     margin-top: -50px;
 }}
 
-html, body, [class*="css"] {{
-    font-family: 'Segoe UI', sans-serif;
-}}
-
 h1, h2, h3 {{
     color: #facc15;
 }}
@@ -56,42 +52,34 @@ p, label {{
 .stButton > button {{
     background: linear-gradient(90deg, #facc15, #eab308);
     color: black;
-    font-size: 16px;
-    border-radius: 12px;
-    padding: 10px 20px;
-    border: none;
-    transition: 0.3s;
-}}
-
-.stButton > button:hover {{
-    transform: scale(1.05);
-    background: linear-gradient(90deg, #eab308, #facc15);
+    border-radius: 10px;
+    font-weight: bold;
 }}
 
 </style>
 """, unsafe_allow_html=True)
 
 # ==============================
-# 🔷 HEADER PRO (HERO)
+# HEADER (SOLO UNA VEZ)
 # ==============================
 st.markdown("""
-<div style='text-align:center; padding:40px 0;'>
+<div style="text-align:center; padding:40px 0;">
 
-    <h1 style='
-        font-size:70px;
+    <h1 style="
+        font-size:60px;
         color:#facc15;
         font-weight:bold;
         letter-spacing:2px;
         margin-bottom:10px;
-    '>
+    ">
         🍻 LICORERA LA FORTUNA 56
     </h1>
 
-    <p style='
-        font-size:22px;
+    <p style="
+        font-size:20px;
         color:white;
         opacity:0.9;
-    '>
+    ">
         Generador de códigos de barras
     </p>
 
@@ -99,7 +87,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==============================
-# 🔷 SETUP
+# SETUP
 # ==============================
 os.makedirs("output", exist_ok=True)
 
@@ -110,12 +98,12 @@ def encontrar_columna_codigo(df):
     return None
 
 # ==============================
-# 🔷 LAYOUT
+# LAYOUT
 # ==============================
 col1, col2 = st.columns(2)
 
 # ==============================
-# 🍬 INDIVIDUAL
+# INDIVIDUAL
 # ==============================
 with col1:
     st.markdown("## 🍬 Generar código individual")
@@ -141,7 +129,7 @@ with col1:
                 )
 
 # ==============================
-# 🍺 EXCEL
+# EXCEL
 # ==============================
 with col2:
     st.markdown("## 🍺 Generar desde Excel")
@@ -182,7 +170,7 @@ with col2:
                     )
 
 # ==============================
-# 🔷 FOOTER
+# FOOTER
 # ==============================
 st.markdown("---")
 st.markdown("✨ Próximamente: Inventario | Ventas | Reportes")
