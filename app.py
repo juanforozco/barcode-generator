@@ -64,12 +64,15 @@ p, label {{
 # HEADER (CORREGIDO)
 # ==============================
 components.html("""
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
 <div style="text-align:center; padding:40px 0;">
 
     <h1 style="
-        font-size:60px;
+        font-size:65px;
         color:#facc15;
-        font-weight:bold;
+        font-family: 'Playfair Display', serif;
+        font-weight:700;
         letter-spacing:2px;
         margin-bottom:10px;
     ">
@@ -80,12 +83,13 @@ components.html("""
         font-size:20px;
         color:white;
         opacity:0.9;
+        font-family: sans-serif;
     ">
         Generador de códigos de barras
     </p>
 
 </div>
-""", height=180)
+""", height=200)
 
 # ==============================
 # SETUP
