@@ -13,7 +13,7 @@ import streamlit.components.v1 as components
 st.set_page_config(page_title="Licorera La Fortuna 56", layout="wide")
 
 # ==============================
-# CARGAR IMAGEN BASE64
+# CARGAR IMAGEN
 # ==============================
 def get_base64_image(image_path):
     with open(image_path, "rb") as img:
@@ -22,7 +22,7 @@ def get_base64_image(image_path):
 img_base64 = get_base64_image("assets/fondo.jpg")
 
 # ==============================
-# CSS
+# ESTILOS
 # ==============================
 st.markdown(f"""
 <style>
@@ -36,10 +36,15 @@ st.markdown(f"""
 }}
 
 .block-container {{
-    background: rgba(0,0,0,0.6);
-    padding: 2rem;
-    border-radius: 20px;
     margin-top: -50px;
+}}
+
+.card {{
+    background: rgba(0,0,0,0.7);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
 }}
 
 h1, h2, h3 {{
@@ -61,7 +66,7 @@ p, label {{
 """, unsafe_allow_html=True)
 
 # ==============================
-# HEADER (CORREGIDO)
+# HEADER PREMIUM
 # ==============================
 components.html("""
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -111,6 +116,8 @@ col1, col2 = st.columns(2)
 # 🍬 INDIVIDUAL
 # ==============================
 with col1:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+
     st.markdown("## 🍬 Generar código individual")
 
     codigo = st.text_input("Ingrese código")
@@ -133,10 +140,14 @@ with col1:
                     mime="image/png"
                 )
 
+    st.markdown('</div>', unsafe_allow_html=True)
+
 # ==============================
 # 🍺 EXCEL
 # ==============================
 with col2:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+
     st.markdown("## 🍺 Generar desde Excel")
 
     archivo = st.file_uploader("Sube tu Excel")
@@ -173,6 +184,8 @@ with col2:
                         f,
                         file_name="codigos.zip"
                     )
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ==============================
 # FOOTER
