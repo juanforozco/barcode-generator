@@ -6,18 +6,23 @@ import os
 import zipfile
 import base64
 
+# ==============================
 # 🔷 CONFIG
+# ==============================
 st.set_page_config(page_title="Licorera La Fortuna 56", layout="wide")
 
-# 🔷 FUNCION PARA CARGAR IMAGEN
+# ==============================
+# 🔷 CARGAR IMAGEN BASE64
+# ==============================
 def get_base64_image(image_path):
     with open(image_path, "rb") as img:
         return base64.b64encode(img.read()).decode()
 
-# 🔷 CARGAR IMAGEN
 img_base64 = get_base64_image("assets/fondo.jpg")
 
-# 🔥 ESTILO GLOBAL
+# ==============================
+# 🔥 ESTILOS
+# ==============================
 st.markdown(f"""
 <style>
 
@@ -33,6 +38,11 @@ st.markdown(f"""
     background: rgba(0,0,0,0.6);
     padding: 2rem;
     border-radius: 20px;
+    margin-top: -50px;
+}}
+
+html, body, [class*="css"] {{
+    font-family: 'Segoe UI', sans-serif;
 }}
 
 h1, h2, h3 {{
@@ -43,42 +53,72 @@ p, label {{
     color: white;
 }}
 
-.stButton>button {{
-    background-color: #facc15;
+.stButton > button {{
+    background: linear-gradient(90deg, #facc15, #eab308);
     color: black;
-    border-radius: 10px;
-    font-weight: bold;
+    font-size: 16px;
+    border-radius: 12px;
+    padding: 10px 20px;
+    border: none;
+    transition: 0.3s;
+}}
+
+.stButton > button:hover {{
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #eab308, #facc15);
 }}
 
 </style>
 """, unsafe_allow_html=True)
 
-# 🔷 HEADER PRO
+# ==============================
+# 🔷 HEADER PRO (HERO)
+# ==============================
 st.markdown("""
-<div style='text-align:center; margin-bottom:30px;'>
-    <h1 style='font-size:60px;'>🍻 LICORERA LA FORTUNA 56</h1>
-    <p style='font-size:22px;'>Generador de códigos de barras</p>
+<div style='text-align:center; padding:40px 0;'>
+
+    <h1 style='
+        font-size:70px;
+        color:#facc15;
+        font-weight:bold;
+        letter-spacing:2px;
+        margin-bottom:10px;
+    '>
+        🍻 LICORERA LA FORTUNA 56
+    </h1>
+
+    <p style='
+        font-size:22px;
+        color:white;
+        opacity:0.9;
+    '>
+        Generador de códigos de barras
+    </p>
+
 </div>
 """, unsafe_allow_html=True)
 
-# 🔷 CREAR CARPETA OUTPUT
+# ==============================
+# 🔷 SETUP
+# ==============================
 os.makedirs("output", exist_ok=True)
 
-# 🔷 FUNCION BUSCAR COLUMNA
 def encontrar_columna_codigo(df):
     for col in df.columns:
         if col.strip().lower() in ["codigo", "código"]:
             return col
     return None
 
+# ==============================
 # 🔷 LAYOUT
+# ==============================
 col1, col2 = st.columns(2)
 
 # ==============================
-# 🔹 CÓDIGO INDIVIDUAL
+# 🍬 INDIVIDUAL
 # ==============================
 with col1:
-    st.subheader("🔹 Generar código individual")
+    st.markdown("## 🍬 Generar código individual")
 
     codigo = st.text_input("Ingrese código")
 
@@ -101,10 +141,10 @@ with col1:
                 )
 
 # ==============================
-# 🔹 DESDE EXCEL
+# 🍺 EXCEL
 # ==============================
 with col2:
-    st.subheader("📊 Generar desde Excel")
+    st.markdown("## 🍺 Generar desde Excel")
 
     archivo = st.file_uploader("Sube tu Excel")
 
@@ -141,6 +181,8 @@ with col2:
                         file_name="codigos.zip"
                     )
 
+# ==============================
 # 🔷 FOOTER
+# ==============================
 st.markdown("---")
 st.markdown("✨ Próximamente: Inventario | Ventas | Reportes")
