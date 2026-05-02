@@ -5,6 +5,7 @@ from barcode.writer import ImageWriter
 import os
 import zipfile
 import base64
+import streamlit.components.v1 as components
 
 # ==============================
 # CONFIG
@@ -12,7 +13,7 @@ import base64
 st.set_page_config(page_title="Licorera La Fortuna 56", layout="wide")
 
 # ==============================
-# CARGAR IMAGEN
+# CARGAR IMAGEN BASE64
 # ==============================
 def get_base64_image(image_path):
     with open(image_path, "rb") as img:
@@ -21,7 +22,7 @@ def get_base64_image(image_path):
 img_base64 = get_base64_image("assets/fondo.jpg")
 
 # ==============================
-# CSS (AQUÍ VA TODO EL ESTILO)
+# CSS
 # ==============================
 st.markdown(f"""
 <style>
@@ -60,9 +61,9 @@ p, label {{
 """, unsafe_allow_html=True)
 
 # ==============================
-# HEADER (SOLO UNA VEZ)
+# HEADER (CORREGIDO)
 # ==============================
-st.markdown("""
+components.html("""
 <div style="text-align:center; padding:40px 0;">
 
     <h1 style="
@@ -84,7 +85,7 @@ st.markdown("""
     </p>
 
 </div>
-""", unsafe_allow_html=True)
+""", height=180)
 
 # ==============================
 # SETUP
@@ -103,7 +104,7 @@ def encontrar_columna_codigo(df):
 col1, col2 = st.columns(2)
 
 # ==============================
-# INDIVIDUAL
+# 🍬 INDIVIDUAL
 # ==============================
 with col1:
     st.markdown("## 🍬 Generar código individual")
@@ -129,7 +130,7 @@ with col1:
                 )
 
 # ==============================
-# EXCEL
+# 🍺 EXCEL
 # ==============================
 with col2:
     st.markdown("## 🍺 Generar desde Excel")
